@@ -1,3 +1,5 @@
+package contet.playlist;
+
 public class ContentPlaylist {
 
     public static void main(String[] args) {

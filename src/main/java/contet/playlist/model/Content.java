@@ -1,16 +1,12 @@
-package model;
+package contet.playlist.model;
 
 import java.util.List;
 
-public class Preroll {
+public class Content {
 
     private String name;
+    private List<Preroll> preroll;
     private List<Video> videos;
-
-    public Preroll(String name, List<Video> videos) {
-        this.name = name;
-        this.videos = videos;
-    }
 
     public String getName() {
         return name;
@@ -18,6 +14,14 @@ public class Preroll {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Preroll> getPreroll() {
+        return preroll;
+    }
+
+    public void setPreroll(List<Preroll> preroll) {
+        this.preroll = preroll;
     }
 
     public List<Video> getVideos() {
