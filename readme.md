@@ -18,3 +18,9 @@ I think is relevant
  
 2) After validating my initial solution I will continue with the read from file.
    Implemented read from file using jackson, now it starting to get more clearer
+   
+3) Now I will try to make a production ready go. As I saw in time whan I used a code from another
+library it was really well documented, so I will do this and I will try to cover all the cases and describe everything
+   I implemented tests, coverage 100% for all my code and documented my code
+   I will think tomorrow of a solution to load the in-memory from JSON in an async way to not interface
+ with program loading  

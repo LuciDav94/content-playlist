@@ -1,14 +1,19 @@
 package contet.playlist.store;
 
 import contet.playlist.model.Content;
-import contet.playlist.model.Preroll;
+import contet.playlist.model.PreRoll;
 
 import java.util.List;
 
-public class JsonFileModel {
+/**
+ * Model class for the JSON file which contains contents info
+ *
+ * @author lucian.davidescu
+ */
+public class StoreFileModel {
 
     private List<Content> content;
-    private List<Preroll> preroll;
+    private List<PreRoll> preroll;
 
     public List<Content> getContent() {
         return content;
@@ -18,11 +23,11 @@ public class JsonFileModel {
         this.content = content;
     }
 
-    public List<Preroll> getPreroll() {
+    public List<PreRoll> getPreroll() {
         return preroll;
     }
 
-    public void setPreroll(List<Preroll> preroll) {
+    public void setPreroll(List<PreRoll> preroll) {
         this.preroll = preroll;
     }
 }
