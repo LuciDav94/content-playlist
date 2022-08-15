@@ -6,6 +6,8 @@ import contet.playlist.model.PreRoll;
 import contet.playlist.model.Video;
 import contet.playlist.store.ContentStore;
 import contet.playlist.store.StoreRead;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,8 @@ import java.util.List;
  * @author lucian.davidescu
  */
 public class PlaylistService {
+
+    private static final Logger LOGGER = LogManager.getLogger(PlaylistService.class);
 
     static {
         // I've let this commented but I've put the explanation into readme.md
@@ -36,17 +40,23 @@ public class PlaylistService {
      * @throws PlaylistException - if there is no match or parameters are wrong
      */
     public List<PlayList> computePlaylist(String contentIdentifier, String country) throws PlaylistException {
+        LOGGER.debug("Return playlist based on following parameters:identifier:{} and country:{}",
+                contentIdentifier, country);
         if (contentIdentifier == null || contentIdentifier.isEmpty() || contentIdentifier.isBlank()
                 || country == null || country.isEmpty() || country.isBlank()) {
+            LOGGER.warn("Wrong parameters");
             PlaylistException.throwWrongParameters();
         }
         Content content = ContentStore.getInstance().getContentMap().get(contentIdentifier);
         if (content == null) {
+            LOGGER.warn("No content found");
             PlaylistException.throwNoContentFound();
         }
         List<PlayList> playLists = new ArrayList<>();
-        if (content.getPreroll() != null && !content.getPreroll().isEmpty()) {
-            for (PreRoll preRollFromContent : content.getPreroll()) {
+        List<PreRoll> preRollList = content.getPreroll();
+        if (preRollList != null && !preRollList.isEmpty()) {
+            LOGGER.debug("Content has {} prerolls", preRollList.size());
+            for (PreRoll preRollFromContent : preRollList) {
                 for (Video videoOfPreRoll : preRollFromContent.getVideos()) {
                     Video.Attributes videoOfPreRollAttributes = videoOfPreRoll.getAttributes();
                     if (videoOfPreRollAttributes.getCountries().contains(country)) {
@@ -55,13 +65,16 @@ public class PlaylistService {
                             Video.Attributes videoOfContentAttributes = videoOfContent.getAttributes();
                             if (videoOfContentAttributes.getCountries().contains(country)
                                     && videoOfContentAttributes.getLanguage().equals(language)) {
-                                playLists.add(new PlayList(videoOfPreRoll.getName(), videoOfContent.getName()));
+                                PlayList playList = new PlayList(videoOfPreRoll.getName(), videoOfContent.getName());
+                                playLists.add(playList);
+                                LOGGER.info("Found playlist:{}", playList.toString());
                             }
                         }
                     }
                 }
             }
             if (playLists.isEmpty()) {
+                LOGGER.warn("No legal playlist found for preroll");
                 PlaylistException.throwNoLegalPlaylistFoundPreRoll(country);
             }
         } else {
@@ -70,13 +83,17 @@ public class PlaylistService {
             for (Video videoOfContent : content.getVideos()) {
                 Video.Attributes videoOfContentAttributes = videoOfContent.getAttributes();
                 if (videoOfContentAttributes.getCountries().contains(country)) {
-                    playLists.add(new PlayList(null, videoOfContent.getName()));
+                    PlayList playList = new PlayList(null, videoOfContent.getName());
+                    playLists.add(playList);
+                    LOGGER.info("Found playlist:{}", playList.toString());
                 }
             }
             if (playLists.isEmpty()) {
+                LOGGER.warn("No country found in the content");
                 PlaylistException.throwNoCountryFound(country);
             }
         }
+        LOGGER.info("Return {} playlists", playLists.size());
         return playLists;
     }
 }

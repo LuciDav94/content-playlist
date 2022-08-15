@@ -28,4 +28,12 @@ public class PlayList {
     public String getContentVideo() {
         return contentVideo;
     }
+
+    @Override
+    public String toString() {
+        if (prerollVideo == null) {
+            return "{" + contentVideo + "}";
+        }
+        return "{" + prerollVideo + ", " + contentVideo + "}";
+    }
 }

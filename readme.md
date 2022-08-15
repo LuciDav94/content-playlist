@@ -44,4 +44,7 @@ after the content map is initialised. Depends on what strategy we want to go, no
 behind which already have the values, but for this case I will prefer to let the file to be loaded in the static  
 block 
 
+After final review I remembered about logs. I will add a log dependency to use logs in my code, to be easier 
+to identify if there will be any problems
+
 
