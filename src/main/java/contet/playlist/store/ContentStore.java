@@ -27,6 +27,9 @@ public class ContentStore {
         return single_instance;
     }
 
+    /**
+     * I assumed the name of the content is unique
+     */
     private Map<String, Content> contentMap = new HashMap<>();
 
     public void setContentMap(Map<String, Content> contentMap) {

@@ -23,4 +23,25 @@ I think is relevant
 library it was really well documented, so I will do this and I will try to cover all the cases and describe everything
    I implemented tests, coverage 100% for all my code and documented my code
    I will think tomorrow of a solution to load the in-memory from JSON in an async way to not interface
- with program loading  
+ with program loading
+   
+4) Added <groupId>us.maretha</groupId> and <artifactId>content-playlist</artifactId>
+and executed mvn clean install to install in the local .m2 
+   Tested the library in another application and everything works ok.
+
+I still have a few scenarios to think about:
+  - I am not proud with the static load of the file, especially if it will be a really large file 
+  - I am wondering how it works with a large file
+  - I am not proud how I iterate over the prerolls and content's video but at least the content will 
+be found in O(1)
+    
+I will try to investigate a bit more the load of the file in an async way, maybe using CompletableFuture?
+I can go with the solution to load in an async way in-memory the file using this piece of code:
+CompletableFuture.runAsync(StoreRead::initContentFile);
+and add it to a static block, but than I will have to implement a bit differently.
+I will have to wait for the CompletableFuture to finish so that the computePlaylist will return a value
+after the content map is initialised. Depends on what strategy we want to go, normally it will be a DB
+behind which already have the values, but for this case I will prefer to let the file to be loaded in the static  
+block 
+
+

@@ -40,8 +40,8 @@ public class StoreRead {
             }
             ContentStore.getInstance().setContentMap(contentMap);
         } catch (IOException e) {
-            //this case should not happen because our library will come with a populated json file
-            throw new RuntimeException("(Missing content json file to populate content in-memory store)");
+            //this case should not happen because our library will come with a populated json file from resources
+            throw new RuntimeException("(Missing content json file to populate content of the in-memory store)");
         }
     }
 

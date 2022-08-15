@@ -22,9 +22,19 @@ import java.util.List;
 public class PlaylistService {
 
     static {
+        // I've let this commented but I've put the explanation into readme.md
+//        CompletableFuture.runAsync(StoreRead::initContentFile);
         StoreRead.initContentFile();
     }
 
+    /**
+     * Used to return a list of {@code List<Playlist>} based on the specified content identifier and country
+     *
+     * @param contentIdentifier - the name of the content
+     * @param country           - the country of the video
+     * @return a {@code List<Playlist>} containing the match
+     * @throws PlaylistException - if there is no match or parameters are wrong
+     */
     public List<PlayList> computePlaylist(String contentIdentifier, String country) throws PlaylistException {
         if (contentIdentifier == null || contentIdentifier.isEmpty() || contentIdentifier.isBlank()
                 || country == null || country.isEmpty() || country.isBlank()) {
